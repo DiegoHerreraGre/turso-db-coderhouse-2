@@ -22,10 +22,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/addperson": [
+    "/addpersonform": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/addperson.js"
+      "static/chunks/pages/addpersonform.js"
+    ],
+    "/updateperson": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/updateperson.js"
     ]
   },
   "ampFirstPages": []

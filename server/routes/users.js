@@ -12,7 +12,7 @@ router.get("/new", (req, res) => {
 });
 
 router.post("/recieve", async (req, res) => {
-  const userData = req.body;
+  let userData = req.body;
   console.table(userData);
   users.push(userData);
   res.status(200).json({ message: "User added", userData });
@@ -20,6 +20,12 @@ router.post("/recieve", async (req, res) => {
 
 router.get("/recieve", (req, res) => {
   res.send("User received");
+});
+
+router.put("/update", (req, res) => {
+  let updatedData = [...userData];
+  updatedData.push(req.body);
+  res.status(200).json({ message: "User updated", updatedData });
 });
 
 router
