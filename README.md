@@ -9,3 +9,8 @@ Se usa DB de Turso para complementar el lado del servidor, pero este todavía no
 Se crea un archivo .env para que no se vean las variables de entorno en el código.
 
 > Se crea un archivo .gitignore para que no se suban los node_modules al repositorio.
+
+
+## Errores hasta ahora:
+
+1) Update (PUT) y delete (DELETE) no han quedado del todo configurados por problemas con la lógica del lado del servidor. 
