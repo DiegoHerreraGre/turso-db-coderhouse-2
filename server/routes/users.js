@@ -4,7 +4,7 @@ const router = express.Router();
 router.use(express.json());
 
 router.get("/", (req, res) => {
-  res.send("Users list");
+  res.render("users", { List: users });
 });
 
 router.get("/new", (req, res) => {
@@ -19,14 +19,48 @@ router.post("/recieve", async (req, res) => {
 });
 
 router.get("/recieve", (req, res) => {
-  res.send("User received");
+  res.send("Users recieved");
 });
 
-router.put("/update", (req, res) => {
-  let updatedData = [...userData];
-  updatedData.push(req.body);
-  res.status(200).json({ message: "User updated", updatedData });
-});
+router
+  .route("/update")
+  .get((req, res) => {
+    res.render("update", { List: users });
+  })
+  .put("/update", async (req, res) => {
+    await updateUser(req, res);
+    const userEmail = req.query.email;
+    const index = users.findIndex((u) => u.email === userEmail);
+    if (index !== -1) {
+      const updatedUser = {
+        ...users[index],
+        ...req.body,
+      };
+      users[index] = updatedUser;
+      res
+        .status(200)
+        .json({ message: "Usuario actualizado con éxito", updatedUser });
+    } else {
+      res.status(404).send("Usuario no encontrado");
+    }
+  });
+
+  async function updateUser(button) {
+  const userEmail = button.getAttribute('data-email');
+  const formData = new FormData(document.querySelector('form'));
+  const userData = Object.fromEntries(formData.entries());
+
+  fetch(`/users/update?email=${userEmail}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+}
 
 router
   .route("/:id")
@@ -40,6 +74,8 @@ router
   .delete((req, res) => {
     res.send(`User ${req.params.id}`);
   });
+
+  
 
 const users = [];
 

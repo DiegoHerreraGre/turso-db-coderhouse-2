@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users List</title>
+  </head>
+  <body>
+    <h2>Users List</h2>
+    <% if (List.length > 0) { %>
+    <ul>
+      <% List.forEach(user => { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Lastname</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.lastname %></td>
+          <td><%= user.email %></td>
+        </tr>
+        <tfoot>
+          <tr>
+            <td>Total Users: <%= List.length %></td>
+          </tr>
+        </tfoot>
+      </table>
+      <% }) %>
+    </ul>
+    <% } %>
+    <a href="/users/update">Update some user</a>
+    <a href="/users/delete">Delete some user</a>
+  </body>
+</html>
+

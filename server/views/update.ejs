@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update</title>
+</head>
+<body>
+    <h1>Update</h1>
+    <table>
+      <h3> Select your user to update (Admin control)</h3>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Lastname</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% List.forEach(user => { %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.lastname %></td>
+          <td><%= user.email %></td>
+        </tr>
+        <tfoot>
+          <tr>
+            <td><button data-email="<%= user.email %>">Modify</button></td>
+            <td><button data-email="<%= user.email %>">Delete</button></td>
+          </tr>
+        </tfoot>
+        <% }) %>
+      </tbody>
+    </table>
+    <form action="/users/update" method="post">
+        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="lastname" placeholder="Lastname">
+        <input type="email" name="email" placeholder="Email">
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>
+

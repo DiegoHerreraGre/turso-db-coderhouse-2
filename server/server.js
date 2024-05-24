@@ -3,9 +3,10 @@ const app = express();
 const port = 8080;
 const cors = require("cors");
 app.use(cors(), logger);
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.json({ message: "Hello World!" });
+  res.render("index", { message: "Hello World!" });
 });
 
 const usersRouter = require("./routes/users");
