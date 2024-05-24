@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update</title>
+  </head>
+  <body>
     <h1>Update</h1>
     <table>
-      <h3> Select your user to update (Admin control)</h3>
+      <h3>Select your user to update (Admin control)</h3>
       <thead>
         <tr>
           <th>Name</th>
@@ -22,22 +22,69 @@
           <td><%= user.name %></td>
           <td><%= user.lastname %></td>
           <td><%= user.email %></td>
+          <td>
+            <button onclick="updateUser(this)" data-email="<%= user.email %>">
+              Modify
+            </button>
+          </td>
+          <td>
+            <button onclick="deleteUser(this)" data-email="<%= user.email %>">
+              Delete
+            </button>
+          </td>
         </tr>
-        <tfoot>
-          <tr>
-            <td><button data-email="<%= user.email %>">Modify</button></td>
-            <td><button data-email="<%= user.email %>">Delete</button></td>
-          </tr>
-        </tfoot>
         <% }) %>
       </tbody>
     </table>
+    <div>
+      <label for="searchbox">Buscar Usuario:</label>
+      <input
+        type="search"
+        id="searchbox"
+        oninput="filterUsers()"
+        placeholder="Ingrese email del usuario..."
+      />
+    </div>
     <form action="/users/update" method="post">
-        <input type="text" name="name" placeholder="Name">
-        <input type="text" name="lastname" placeholder="Lastname">
-        <input type="email" name="email" placeholder="Email">
-        <button type="submit">Update</button>
+      <input type="text" name="name" placeholder="Name" />
+      <input type="text" name="lastname" placeholder="Lastname" />
+      <input type="email" name="email" placeholder="Email" />
+      <button type="submit">Update</button>
     </form>
-</body>
-</html>
+    <script>
+      function updateUser(button) {
+        const userEmail = button.getAttribute("data-email");
+        const formData = new FormData(document.querySelector("form"));
+        const userData = Object.fromEntries(formData.entries());
 
+        fetch(`/users/update?email=${userEmail}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error("Error:", error));
+      }
+      function filterUsers() {
+        let searchQuery = document
+          .getElementById("searchbox")
+          .value.toLowerCase();
+        let userRows = document.querySelectorAll(".user-row"); // Asegúrate de que cada fila de usuario tenga esta clase
+
+        userRows.forEach(function (row) {
+          let userEmail = row
+            .querySelector(".user-email")
+            .textContent.toLowerCase(); // Asegúrate de que el email está en un elemento con esta clase
+          if (userEmail.includes(searchQuery)) {
+            row.classList.remove("is-hidden");
+          } else {
+            row.classList.add("is-hidden");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
